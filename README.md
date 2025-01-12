@@ -59,6 +59,9 @@ sudo pip uninstall empy
 sudo python3 -m pip install empy==3.3.4
 sudo python3 -m pip install lark
 sudo apt install cmake
+sudo apt install python3-pyqt5.qtsvg
+sudo python3 -m pip install pydot
+sudo apt install graphviz
 ```
 
 # compile sip-4.19.24 and PyQt5-5.15.2
