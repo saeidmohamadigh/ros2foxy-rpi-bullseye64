@@ -64,8 +64,8 @@ sudo apt install cmake
 # compile sip-4.19.24 and PyQt5-5.15.2
 ```
 cd /usr/src
-sudo wget https://www.riverbankcomputing.com/static/Downloads/sip/4.19.24/sip-4.19.24.tar.gz
-sudo wget https://files.pythonhosted.org/packages/28/6c/640e3f5c734c296a7193079a86842a789edb7988dca39eab44579088a1d1/PyQt5-5.15.2.tar.gz
+sudo wget https://github.com/saeidmohamadigh/ros2foxy-rpi-bullseye64/blob/2acf88949a74e233dbaafbb02680f01808ba29c5/sip-4.19.24.tar.gz
+sudo wget https://github.com/saeidmohamadigh/ros2foxy-rpi-bullseye64/blob/2acf88949a74e233dbaafbb02680f01808ba29c5/PyQt5-5.15.2.tar.gz
 sudo tar xzf sip-4.19.24.tar.gz
 sudo tar xzf PyQt5-5.15.2.tar.gz
 cd sip-4.19.24
