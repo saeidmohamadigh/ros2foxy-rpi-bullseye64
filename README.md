@@ -1,5 +1,6 @@
 ## ros2foxy-rpi-bullseye64
 compile ros2 foxy on compute module 4 with Raspberry Pi OS - bullseye 64-bit
+
 Setting up the locale ensures that the system uses UTF-8 encoding, which is necessary for many ROS 2 components to handle text correctly, especially for internationalization and Unicode support.
 
 # install dependencies
