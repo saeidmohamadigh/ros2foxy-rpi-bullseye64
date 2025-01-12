@@ -3,7 +3,8 @@ compile ros2 foxy on compute module 4 with Raspberry Pi OS - bullseye 64-bit
 Setting up the locale ensures that the system uses UTF-8 encoding, which is necessary for many ROS 2 components to handle text correctly, especially for internationalization and Unicode support.
 
 # install dependencies
-`sudo apt install libfastcdr-dev
+```
+sudo apt install libfastcdr-dev
 sudo apt install liburdfdom-headers-dev
 sudo apt install liblog4cxx-dev
 sudo python3 -m pip install ifcfg
@@ -56,7 +57,8 @@ sudo python3 -m pip install setuptools==58.0.4
 sudo pip uninstall empy
 sudo python3 -m pip install empy==3.3.4
 sudo python3 -m pip install lark
-sudo apt install cmake`
+sudo apt install cmake
+```
 
 # compile sip-4.19.24 and PyQt5-5.15.2
 `cd /usr/src
