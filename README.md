@@ -61,7 +61,8 @@ sudo apt install cmake
 ```
 
 # compile sip-4.19.24 and PyQt5-5.15.2
-`cd /usr/src
+```
+cd /usr/src
 sudo wget https://www.riverbankcomputing.com/static/Downloads/sip/4.19.24/sip-4.19.24.tar.gz
 sudo wget https://files.pythonhosted.org/packages/28/6c/640e3f5c734c296a7193079a86842a789edb7988dca39eab44579088a1d1/PyQt5-5.15.2.tar.gz
 sudo tar xzf sip-4.19.24.tar.gz
@@ -73,13 +74,16 @@ sudo make install
 cd ../PyQt5-5.15.2
 sudo python3 configure.py --qmake /usr/bin/qmake --confirm-license
 sudo make -j$(nproc)
-sudo make install`
+sudo make install
+```
 
 # download source code of the ROS 2 foxy and compile it
-`mkdir -p ~/ros2_foxy/src
+```
+mkdir -p ~/ros2_foxy/src
 cd ~/ros2_foxy
 wget https://raw.githubusercontent.com/ros2/ros2/foxy/ros2.repos
 sudo python3 -m pip install vcstool
 vcs import src < ros2.repos
-colcon build`
+colcon build
+```
 
