@@ -1,93 +1,180 @@
-## ros2foxy-rpi-bullseye64
-compile ros2 foxy on compute module 4 with Raspberry Pi OS - bullseye 64-bit
+# ROS 2 Foxy on Raspberry Pi OS Bullseye 64-bit (Compute Module 4)
 
-Setting up the locale ensures that the system uses UTF-8 encoding, which is necessary for many ROS 2 components to handle text correctly, especially for internationalization and Unicode support.
+A complete guide to compile and install **ROS 2 Foxy** from source on **Raspberry Pi OS Bullseye (64-bit)** running on the **Compute Module 4**.
 
-# install dependencies
+> **Note**: ROS 2 Foxy reached End-of-Life in June 2023. This repository is intended for users who still need Foxy on modern Raspberry Pi OS (Bullseye) hardware.
+
+## Features
+
+- Full source build of ROS 2 Foxy
+- Tested on Compute Module 4 + Raspberry Pi OS Bullseye 64-bit
+- Includes required SIP and PyQt5 builds
+- Step-by-step, reproducible instructions
+
+## Requirements
+
+| Item                    | Recommendation                  |
+|-------------------------|---------------------------------|
+| Hardware                | Compute Module 4 (or Pi 4/400)  |
+| OS                      | Raspberry Pi OS Bullseye 64-bit |
+| RAM                     | 4 GB minimum (8 GB recommended) |
+| Free Disk Space         | ~12–15 GB                       |
+| Internet                | Stable connection required      |
+| Build time              | Several hours (depending on hardware) |
+
+It is highly recommended to enable a swap file if you have less than 8 GB of RAM.
+
+## Installation
+
+### 1. Set Locale (Required)
+
+ROS 2 requires UTF-8 locale:
+
+```bash
+sudo locale-gen en_US en_US.UTF-8
+sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
 ```
-sudo apt install libfastcdr-dev
-sudo apt install liburdfdom-headers-dev
-sudo apt install liblog4cxx-dev
-sudo python3 -m pip install ifcfg
-sudo apt install libasio-dev
-sudo apt install libtinyxml2-dev
-sudo apt install libcunit1-dev
-sudo apt install gnupg2
-sudo apt install software-properties-common
-sudo apt install libncurses5-dev
-sudo apt install libnss3-dev
-sudo apt install libreadline-dev
-sudo apt install libffi-dev
-sudo apt install libsqlite3-dev
-sudo apt install libyaml-cpp-dev
-sudo apt install libgmock-dev
-sudo apt install libx11-dev
-sudo apt install libxaw7-dev
-sudo apt install qt5-qmake
-sudo apt install qtbase5-dev
-sudo apt install libogre-1.9-dev
-sudo apt install libcurl4-openssl-dev
-sudo apt install libfastrtps-dev
-sudo apt install '^libxcb.*-dev'
-sudo apt install libx11-xcb-dev
-sudo apt install libxrender-dev
-sudo apt install libxi-dev
-sudo apt install libxkbcommon-dev
-sudo apt install libxkbcommon-x11-dev
-sudo apt install libxslt-dev
-sudo apt install libxcursor-dev
-sudo apt install libxcomposite-dev
-sudo apt install libxdamage-dev
-sudo apt install libxrandr-dev
-sudo apt install libxtst-dev
-sudo apt install libxss-dev
-sudo apt install libdbus-1-dev
-sudo apt install libevent-dev
-sudo apt install libfontconfig1-dev
-sudo apt install libcap-dev
-sudo apt install libpulse-dev
-sudo apt install libudev-dev
-sudo apt install libpci-dev
-sudo apt install libasound2-dev
-sudo apt install libegl1-mesa-dev
-sudo apt install freeglut3-dev
-sudo apt install libbullet-dev
-sudo apt install libopencv-dev
-sudo python3 -m pip install colcon-common-extensions
-sudo python3 -m pip install setuptools==58.0.4
-sudo pip uninstall empy
+
+### 2. Install System Dependencies
+
+```bash
+sudo apt update
+sudo apt install -y \
+  libfastcdr-dev \
+  liburdfdom-headers-dev \
+  liblog4cxx-dev \
+  libasio-dev \
+  libtinyxml2-dev \
+  libcunit1-dev \
+  gnupg2 \
+  software-properties-common \
+  libncurses5-dev \
+  libnss3-dev \
+  libreadline-dev \
+  libffi-dev \
+  libsqlite3-dev \
+  libyaml-cpp-dev \
+  libgmock-dev \
+  libx11-dev \
+  libxaw7-dev \
+  qt5-qmake \
+  qtbase5-dev \
+  libogre-1.9-dev \
+  libcurl4-openssl-dev \
+  libfastrtps-dev \
+  '^libxcb.*-dev' \
+  libx11-xcb-dev \
+  libxrender-dev \
+  libxi-dev \
+  libxkbcommon-dev \
+  libxkbcommon-x11-dev \
+  libxslt-dev \
+  libxcursor-dev \
+  libxcomposite-dev \
+  libxdamage-dev \
+  libxrandr-dev \
+  libxtst-dev \
+  libxss-dev \
+  libdbus-1-dev \
+  libevent-dev \
+  libfontconfig1-dev \
+  libcap-dev \
+  libpulse-dev \
+  libudev-dev \
+  libpci-dev \
+  libasound2-dev \
+  libegl1-mesa-dev \
+  freeglut3-dev \
+  libbullet-dev \
+  libopencv-dev \
+  cmake \
+  python3-pyqt5.qtsvg \
+  graphviz
+```
+
+### 3. Install Python Dependencies
+
+```bash
+sudo python3 -m pip install --upgrade pip
+sudo python3 -m pip install ifcfg colcon-common-extensions setuptools==58.0.4 lark pydot
+sudo pip uninstall -y empy
 sudo python3 -m pip install empy==3.3.4
-sudo python3 -m pip install lark
-sudo apt install cmake
-sudo apt install python3-pyqt5.qtsvg
-sudo python3 -m pip install pydot
-sudo apt install graphviz
+sudo python3 -m pip install vcstool
 ```
 
-# compile sip-4.19.24 and PyQt5-5.15.2
-```
+### 4. Build SIP and PyQt5
+
+```bash
 cd /usr/src
-sudo wget https://github.com/saeidmohamadigh/ros2foxy-rpi-bullseye64/blob/2acf88949a74e233dbaafbb02680f01808ba29c5/sip-4.19.24.tar.gz
-sudo wget https://github.com/saeidmohamadigh/ros2foxy-rpi-bullseye64/blob/2acf88949a74e233dbaafbb02680f01808ba29c5/PyQt5-5.15.2.tar.gz
+
+# Download source archives from this repository
+sudo wget https://github.com/saeidmohamadigh/ros2foxy-rpi-bullseye64/raw/main/sip-4.19.24.tar.gz
+sudo wget https://github.com/saeidmohamadigh/ros2foxy-rpi-bullseye64/raw/main/PyQt5-5.15.2.tar.gz
+
 sudo tar xzf sip-4.19.24.tar.gz
 sudo tar xzf PyQt5-5.15.2.tar.gz
+
+# Build and install SIP
 cd sip-4.19.24
 sudo python3 configure.py --sip-module PyQt5.sip
 sudo make -j$(nproc)
 sudo make install
+
+# Build and install PyQt5
 cd ../PyQt5-5.15.2
 sudo python3 configure.py --qmake /usr/bin/qmake --confirm-license
 sudo make -j$(nproc)
 sudo make install
 ```
 
-# download source code of the ROS 2 foxy and compile it
-```
+### 5. Download and Build ROS 2 Foxy
+
+```bash
 mkdir -p ~/ros2_foxy/src
 cd ~/ros2_foxy
+
 wget https://raw.githubusercontent.com/ros2/ros2/foxy/ros2.repos
-sudo python3 -m pip install vcstool
 vcs import src < ros2.repos
-colcon build
+
+# Build (this will take a long time)
+colcon build --symlink-install
 ```
 
+### 6. Source the Workspace
+
+Add the following line to your `~/.bashrc` (or run it manually):
+
+```bash
+source ~/ros2_foxy/install/setup.bash
+```
+
+Then reload:
+
+```bash
+source ~/.bashrc
+```
+
+## Verification
+
+```bash
+ros2 --help
+ros2 doctor
+```
+
+## Notes & Tips
+
+- The full build can take **4–8+ hours** depending on your hardware and cooling.
+- Make sure you have enough free disk space before starting the `colcon build`.
+- If the build fails due to memory, increase your swap size.
+- Some packages related to visualization (RViz, etc.) may have limitations on headless setups.
+
+## License
+
+This repository is released under the [MIT License](LICENSE).
+
+## Acknowledgments
+
+- [ROS 2](https://github.com/ros2/ros2) community
+- Raspberry Pi Foundation
+```
